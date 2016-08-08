@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Movies</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src=></script>
+</head>
+
+<body id="main">
+    <div>
+         <h1 id="hed">Watch 10 movies before U die</h1>
+    </div>
+    </br>
+    <div class="row">
+    <div class="col-lg-4 col-lg-offset-4">
+        <div class="input-group">
+            <input type="text" class="form-control" id="Title" placeholder="Search about movie" required="required" /> 
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" id="Search">search!</button>
+            </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-4 -->
+</div><!-- /.row -->
+
+    </br>
+    </br>
+    </br>
+    </br>
+    <div class="container">
+    <table id="det" align="center"></table>
+    </div>
+    <script type="text/javascript">
+    $(function() {
+        var $Title = $('#Title');
+        $('#Search').on('click', function() {
+           
+            var Title = $Title.val();
+            
+            $.ajax({
+                dataType: 'json',
+                url: "http://www.omdbapi.com/?s=" + Title + "&y=&plot=short&r=json",
+                data: Title,
+                success: function(data) {
+                     $('#det').html(' <tr> <th>Title</th>  <th>Year</th> <th>Response</th> <th>Type</th> <th>imdbID</th>  <th>Poster</th> </tr> ');
+
+                    var temp='';
+                    for(var i=0;i<data.Search.length;i++){
+                        temp+= '<tr> <td>' + data.Search[i].Title + ' </td> <td> ' + data.Search[i].Response + ' </td> <td> ' + data.Search[i].Year + ' </td> <td> ' + data.Search[i].Type + ' </td><td> ' + data.Search[i].imdbID + ' </td> <td> <img src=' + data.Search[i].Poster + ' /> </td> </tr>';
+                    }
+                    $('#det').append(temp);
+
+                },
+                error: function() {
+
+                    console.log("error message");
+
+                }
+
+            });
+
+        });
+
+    });
+    </script>
+</body>
+
+</html>
